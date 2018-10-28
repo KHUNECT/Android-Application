@@ -5,4 +5,8 @@
     <string name="로그인">로그인</string>
     <string name="회원가입">회원가입</string>
     <string name="khunect로고">khunect_logo</string>
+
+    <string name="title_activity_loading">LoadingActivity</string>
+    <string name="dummy_button"></string>
+    <string name="dummy_content">KHU:NECT</string>
 </resources>
