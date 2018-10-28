@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">KHUNECT_01</string>
+    <string name="아이디">아이디</string>
+    <string name="패스워드">패스워드</string>
+    <string name="로그인">로그인</string>
+    <string name="회원가입">회원가입</string>
+    <string name="khunect로고">khunect_logo</string>
+</resources>
