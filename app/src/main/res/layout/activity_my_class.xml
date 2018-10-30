@@ -28,17 +28,94 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/linearLayout5"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:id="@+id/핫게시물"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/내강의" />
-                </LinearLayout>
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/roundedborder"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/text_myclass"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/레이아웃설명테두리"
+                            android:text="@string/내강의"
+                            android:textColor="@color/colorKyunghee"
+                            android:textSize="@dimen/레이아웃설명" />
+
+                        <Button
+                            android:id="@+id/button_class1"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:onClick="onClassClicked"
+                            android:text="Class1" />
+
+                        <Button
+                            android:id="@+id/button_class2"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:onClick="onClassClicked"
+                            android:text="Class2" />
+
+                        <Button
+                            android:id="@+id/button_class3"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:onClick="onClassClicked"
+                            android:text="Class3" />
+
+                        <Button
+                            android:id="@+id/button_class4"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:onClick="onClassClicked"
+                            android:text="Class4" />
+
+                        <Button
+                            android:id="@+id/button_class5"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:onClick="onClassClicked"
+                            android:text="Class5" />
+
+                        <Button
+                            android:id="@+id/button_class6"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:onClick="onClassClicked"
+                            android:text="Class6" />
+
+                        <Button
+                            android:id="@+id/button_class7"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:onClick="onClassClicked"
+                            android:text="Class7" />
+
+                        <Button
+                            android:id="@+id/button_class8"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:onClick="onClassClicked"
+                            android:text="Class8" />
+
+                    </LinearLayout>
+
+                </android.support.constraint.ConstraintLayout>
             </ScrollView>
 
             <LinearLayout

@@ -28,7 +28,8 @@
         <activity android:name=".AdsActivity" />
         <activity android:name=".TradeActivity" />
         <activity android:name=".SigninActivity" />
-        <activity android:name=".SearchhomeActivity"></activity>
+        <activity android:name=".SearchhomeActivity" />
+        <activity android:name=".ClassboardActivity"></activity>
     </application>
 
 </manifest>
