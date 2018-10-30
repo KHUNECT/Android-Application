@@ -22,7 +22,13 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_loading"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".MyClassActivity" />
+        <activity android:name=".TogetherActivity" />
+        <activity android:name=".AdsActivity" />
+        <activity android:name=".TradeActivity" />
+        <activity android:name=".SigninActivity" />
+        <activity android:name=".SearchhomeActivity"></activity>
     </application>
 
 </manifest>

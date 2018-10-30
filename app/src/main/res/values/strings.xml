@@ -2,11 +2,31 @@
     <string name="app_name">KHUNECT_01</string>
     <string name="아이디">아이디</string>
     <string name="패스워드">패스워드</string>
+    <string name="패스워드재입력">패스워드 재입력</string>
     <string name="로그인">로그인</string>
     <string name="회원가입">회원가입</string>
     <string name="khunect로고">khunect_logo</string>
+    <string name="닉네임">닉네임</string>
+
+    <string name="홈">홈</string>
+    <string name="내강의">내 강의</string>
+    <string name="함께해요">함께해요</string>
+    <string name="홍보">홍보</string>
+    <string name="거래">장터</string>
 
     <string name="title_activity_loading">LoadingActivity</string>
     <string name="dummy_button"></string>
     <string name="dummy_content">KHU:NECT</string>
+    <string name="button">Button</string>
+    <string name="가입">가입</string>
+    <string name="취소">취소</string>
+    <string name="로그아웃">Logout</string>
+    <string name="검색">검색</string>
+    <string name="뜨거운게시물">뜨거운 게시물</string>
+    <string name="내수업새소식">내 수업 새소식</string>
+    <string name="장터새소식">장터 새소식</string>
+    <string name="아르바이트새소식">알바 새소식</string>
+    <string name="더보기">더 보기</string>
+    <string name="홈서치힌트">제목, 내용, 태그</string>
+    <string name="검색결과">검색 결과</string>
 </resources>

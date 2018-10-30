@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="레이아웃설명">20sp</dimen>
+    <dimen name="레이아웃설명테두리">10dp</dimen>
+</resources>
