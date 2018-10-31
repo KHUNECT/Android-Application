@@ -29,4 +29,17 @@
     <string name="더보기">더 보기</string>
     <string name="홈서치힌트">제목, 내용, 태그</string>
     <string name="검색결과">검색 결과</string>
+    <string name="동아리">동아리</string>
+    <string name="알바">알바</string>
+    <string name="취미">취미</string>
+    <string name="스터디">스터디</string>
+    <string name="삽니다">삽니다</string>
+    <string name="팝니다">팝니다</string>
+    <string name="제목">제목</string>
+    <string name="내용">여기를 눌러 내용을 작성하세요.</string>
+    <string name="올리기">올리기</string>
+    <string name="게시판이름">게시판이름</string>
+    <string name="작성자정보">작성자정보</string>
+    <string name="내용2">내용</string>
+    <string name="댓글">댓글</string>
 </resources>

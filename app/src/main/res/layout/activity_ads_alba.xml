@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TogetherActivity">
+    tools:context=".AdsAlbaActivity">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton3"
+        android:id="@+id/floatingActionButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="432dp"
@@ -29,29 +29,29 @@
             tools:context=".HomeActivity">
 
             <LinearLayout
-                android:id="@+id/linearLayout8"
+                android:id="@+id/linearLayout7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button_스터디"
+                    android:id="@+id/button_동아리"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:textColor="@color/colorKyunghee"
-                    android:text="@string/스터디" />
+                    android:onClick="onCircleButtonClicked"
+                    android:text="@string/동아리"
+                    android:textColor="@color/gray_notselected" />
 
                 <Button
-                    android:id="@+id/button_취미"
+                    android:id="@+id/button_알바"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="onHobbyButtonClicked"
-                    android:text="@string/취미"
-                    android:textColor="@color/gray_notselected" />
+                    android:text="@string/알바"
+                    android:textColor="@color/colorKyunghee" />
             </LinearLayout>
 
             <ScrollView
@@ -64,26 +64,42 @@
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
                 <LinearLayout
-                    android:background="@drawable/roundedborder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/roundedborder"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/함께해요" />
+                        android:text="@string/홍보" />
 
                     <Button
-                        android:id="@+id/button27"
+                        android:id="@+id/button8"
                         android:layout_width="match_parent"
-                        android:layout_height="500dp"
+                        android:layout_height="700dp"
                         android:text="Button" />
 
+                    <Button
+                        android:id="@+id/button25"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Button" />
+
+                    <Button
+                        android:id="@+id/button26"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Button" />
+
+                    <TextView
+                        android:id="@+id/틈10"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
                 </LinearLayout>
             </ScrollView>
 
@@ -123,8 +139,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="onClickedTogetherButton"
                     android:text="@string/함께해요"
-                    android:textColor="@color/colorKyunghee" />
+                    android:textColor="@color/gray_notselected" />
 
                 <Button
                     android:id="@+id/Adsbutton"
@@ -132,9 +149,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="onClickedAdsButton"
                     android:text="@string/홍보"
-                    android:textColor="@color/gray_notselected" />
+                    android:textColor="@color/colorKyunghee" />
 
                 <Button
                     android:id="@+id/Tradebutton"

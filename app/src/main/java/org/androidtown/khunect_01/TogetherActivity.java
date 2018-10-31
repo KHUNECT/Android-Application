@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 
 public class TogetherActivity extends AppCompatActivity {
+    private String className = "Together";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,19 +21,30 @@ public class TogetherActivity extends AppCompatActivity {
 
     public void onClickedMyclassButton(View view) {
         super.onBackPressed();
-        Intent intent = new Intent(this, MyClassActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MyClassActivity.class);
         startActivity(intent);
     }
 
     public void onClickedAdsButton(View view) {
         super.onBackPressed();
-        Intent intent = new Intent(this, AdsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AdsActivity.class);
         startActivity(intent);
     }
 
     public void onClickedTradeButton(View view) {
         super.onBackPressed();
-        Intent intent = new Intent(this, TradeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
+        startActivity(intent);
+    }
+
+    public void onHobbyButtonClicked(View view) {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), TogetherHobbyActivity.class);
+        startActivity(intent);
+    }
+
+    public void onPostingButtonClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
         startActivity(intent);
     }
 }

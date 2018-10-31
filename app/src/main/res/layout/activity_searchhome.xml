@@ -37,6 +37,7 @@
     </LinearLayout>
 
     <ScrollView
+        android:scrollbars="none"
         android:id="@+id/scrollView3"
         android:layout_width="344dp"
         android:layout_height="495dp"

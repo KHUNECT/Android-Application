@@ -4,23 +4,23 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
-public class MyClassActivity extends AppCompatActivity {
+public class TogetherHobbyActivity extends AppCompatActivity {
+    private String className = "TogetherHobby";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_class);
+        setContentView(R.layout.activity_together_hobby);
     }
 
     public void onClickedHomeButton(View view) {
         super.onBackPressed();
     }
 
-    public void onClickedTogetherButton(View view) {
+    public void onClickedMyclassButton(View view) {
         super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(), TogetherActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MyClassActivity.class);
         startActivity(intent);
     }
 
@@ -36,12 +36,15 @@ public class MyClassActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClassClicked(View view) {
-        String text = ((Button)view).getText().toString(); //버튼에 적힌 텍스트
-        Intent intent = new Intent(getApplicationContext(), ClassboardActivity.class);
 
-        intent.putExtra("classname", text); //classname으로 ClassboardActivity에 넘김
+    public void onStudyButtonClicked(View view) {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(),TogetherActivity.class);
+        startActivity(intent);
+    }
 
+    public void onPostingButtonClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
         startActivity(intent);
     }
 }

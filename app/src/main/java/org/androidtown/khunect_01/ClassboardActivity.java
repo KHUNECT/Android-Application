@@ -3,9 +3,11 @@ package org.androidtown.khunect_01;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class ClassboardActivity extends AppCompatActivity {
+    private String className = "Classboard";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +19,12 @@ public class ClassboardActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         String name = intent.getExtras().getString("classname"); //classname에 저장돼있는 정보를 name에 저장
+        name += " 게시판";
         tx1.setText(name); //label_classname에 name을 set.
+    }
+
+    public void onPostingButtonClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
+        startActivity(intent);
     }
 }

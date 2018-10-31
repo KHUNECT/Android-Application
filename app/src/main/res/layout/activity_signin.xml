@@ -48,8 +48,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="닉네임"
-            android:inputType="textPersonName" />
+            android:hint="@string/닉네임"
+            android:inputType="textPersonName"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/text_userID"
@@ -57,7 +58,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/아이디"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/text_userPassword1"
@@ -65,7 +67,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/패스워드"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/text_userPassword2"
@@ -73,7 +76,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/패스워드재입력"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:importantForAutofill="no" />
     </LinearLayout>
 
     <LinearLayout

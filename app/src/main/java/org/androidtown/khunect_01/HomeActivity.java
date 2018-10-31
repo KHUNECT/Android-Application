@@ -35,27 +35,27 @@ public class HomeActivity extends AppCompatActivity {
     }//#
 
     public void onClickedHomeButton(View view) {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
     }
 
     public void onClickedMyclassButton(View view) {
-        Intent intent = new Intent(this, MyClassActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MyClassActivity.class);
         startActivity(intent);
     }
 
     public void onClickedTogetherButton(View view) {
-        Intent intent = new Intent(this, TogetherActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TogetherActivity.class);
         startActivity(intent);
     }
 
     public void onClickedAdsButton(View view) {
-        Intent intent = new Intent(this, AdsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AdsActivity.class);
         startActivity(intent);
     }
 
     public void onClickedTradeButton(View view) {
-        Intent intent = new Intent(this, TradeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
         startActivity(intent);
     }
 
@@ -68,6 +68,23 @@ public class HomeActivity extends AppCompatActivity {
     public void onSearchButtonClicked(View view) {
         //검색
         Intent intent = new Intent(getApplicationContext(), SearchhomeActivity.class);
+        startActivity(intent);
+    }
+
+    public void onHotMoreButtonClicked(View view) {
+        //뜨게
+        Intent intent = new Intent(getApplicationContext(), HotgaeActivity.class);
+        startActivity(intent);
+    }
+
+    public void onAlbaButtonClicked(View view) {
+
+        Intent intent = new Intent(getApplicationContext(), AdsAlbaActivity.class);
+        startActivity(intent);
+    }
+
+    public void onPostClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), PostActivity.class);
         startActivity(intent);
     }
 }

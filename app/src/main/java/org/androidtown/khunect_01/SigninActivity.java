@@ -4,64 +4,83 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.NameValuePair;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
 
 public class SigninActivity extends AppCompatActivity {
 
-    private EditText editNickname;
+    private EditText editTextNickname;
     private EditText editTextId;
     private EditText editTextPw1;
     private EditText editTextPw2;
 
+    private String usernickname;
+    private String userpw;
+    private String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-        editNickname = (EditText) findViewById((R.id.text_userNickname));
+        editTextNickname = (EditText) findViewById((R.id.text_userNickname));
         editTextId = (EditText) findViewById(R.id.text_userID);
         editTextPw1 = (EditText) findViewById(R.id.text_userPassword1);
         editTextPw2 = (EditText) findViewById(R.id.text_userPassword2);
     }
 
     public void onSignupButtonClicked(View view) {
-        String nickname = editNickname.getText().toString();
-        String Id = editTextId.getText().toString();
+        usernickname = editTextNickname.getText().toString();
+        userid = editTextId.getText().toString();
         String Pw1 = editTextPw1.getText().toString();
         String Pw2 = editTextPw2.getText().toString();
 
-        if (nickname.isEmpty())
+        if (usernickname.isEmpty())
         {
-            Toast.makeText(this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
 
-        else if (Id.isEmpty())
+        else if (userid.isEmpty())
         {
-            Toast.makeText(this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
 
-        else if (Pw1.isEmpty())
+        else if (Pw1.isEmpty() || Pw2.isEmpty())
         {
-            Toast.makeText(this, "패스워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "패스워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
-
-        else if (Pw1 != Pw2)
+        else if (!Pw1.equals(Pw2))
         {
-            Toast.makeText(this, "비밀번호가 일치하지 않아요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않아요.", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            //inserttoToDataBase(nickname, Id, Pw1);
+            Toast.makeText(this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+            userpw = Pw1;
+            select_doProcess();
         }
 
     }
@@ -70,7 +89,47 @@ public class SigninActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    /*
+     Post 방식으로 Http 전송하기
+    */
+    private void select_doProcess() {
 
+        HttpClient client = new DefaultHttpClient();
+        HttpPost post = new HttpPost("http://192.168.219.101:8090/readus/insertuserinfo.do");
+        ArrayList<NameValuePair> nameValues =
+                new ArrayList<NameValuePair>();
+
+        try {
+            //Post방식으로 넘길 값들을 각각 지정을 해주어야 한다.
+            nameValues.add(new BasicNameValuePair(
+                    "userNickname", URLDecoder.decode(usernickname, "UTF-8")));
+            nameValues.add(new BasicNameValuePair(
+                    "userId", URLDecoder.decode(userid, "UTF-8")));
+            nameValues.add(new BasicNameValuePair(
+                    "userPw", URLDecoder.decode(userpw, "UTF-8")));
+
+            //HttpPost에 넘길 값을들 Set해주기
+            post.setEntity(
+                    new UrlEncodedFormEntity(
+                            nameValues, "UTF-8"));
+        } catch (UnsupportedEncodingException ex) {
+            Log.e("Insert Log", ex.toString());
+        }
+
+        try {
+            //설정한 URL을 실행시키기
+            HttpResponse response = client.execute(post);
+            //통신 값을 받은 Log 생성. (200이 나오는지 확인할 것~) 200이 나오면 통신이 잘 되었다는 뜻!
+            Log.i("Insert Log", "response.getStatusCode:" + response.getStatusLine().getStatusCode());
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 /*
     private void inserttoToDatabase(String nickname, String Id, String Pw) {
         class InsertData extends AsyncTask<String, Void, String> {

@@ -7,6 +7,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:scrollbars="none"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -29,7 +30,13 @@
         <activity android:name=".TradeActivity" />
         <activity android:name=".SigninActivity" />
         <activity android:name=".SearchhomeActivity" />
-        <activity android:name=".ClassboardActivity"></activity>
+        <activity android:name=".ClassboardActivity" />
+        <activity android:name=".AdsAlbaActivity" />
+        <activity android:name=".TogetherHobbyActivity" />
+        <activity android:name=".TradeSellActivity" />
+        <activity android:name=".HotgaeActivity" />
+        <activity android:name=".PostingActivity" />
+        <activity android:name=".PostActivity"></activity>
     </application>
 
 </manifest>

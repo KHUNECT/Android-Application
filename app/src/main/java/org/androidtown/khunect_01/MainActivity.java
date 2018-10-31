@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         startLoginActivity();
 
         //로딩화면
-        Intent intent = new Intent(this, LoadingActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LoadingActivity.class);
         startActivity(intent);
 
         finish();
@@ -28,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent2);
     }
 
+    public void onPostingButtonClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
+        startActivity(intent);
+    }
 
     //필없는거. 나중에 지울 것임
     public void onClickedLogin(View view) {

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TogetherActivity">
+    tools:context=".TogetherHobbyActivity">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton3"
+        android:id="@+id/floatingActionButton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="432dp"
@@ -36,12 +36,13 @@
 
                 <Button
                     android:id="@+id/button_스터디"
+                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:textColor="@color/colorKyunghee"
-                    android:text="@string/스터디" />
+                    android:onClick="onStudyButtonClicked"
+                    android:text="@string/스터디"
+                    android:textColor="@color/gray_notselected" />
 
                 <Button
                     android:id="@+id/button_취미"
@@ -49,9 +50,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="onHobbyButtonClicked"
                     android:text="@string/취미"
-                    android:textColor="@color/gray_notselected" />
+                    android:textColor="@color/colorKyunghee" />
             </LinearLayout>
 
             <ScrollView
@@ -67,9 +67,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
 
                 <LinearLayout
-                    android:background="@drawable/roundedborder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/roundedborder"
                     android:orientation="vertical">
 
                     <TextView

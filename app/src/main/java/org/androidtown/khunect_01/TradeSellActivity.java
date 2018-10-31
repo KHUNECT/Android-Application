@@ -4,14 +4,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
-public class MyClassActivity extends AppCompatActivity {
+public class TradeSellActivity extends AppCompatActivity {
+    private String className = "TradeSell";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_class);
+        setContentView(R.layout.activity_trade_sell);
     }
 
     public void onClickedHomeButton(View view) {
@@ -30,18 +30,20 @@ public class MyClassActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickedTradeButton(View view) {
+    public void onClickedMyclassButton(View view) {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), MyClassActivity.class);
+        startActivity(intent);
+    }
+
+    public void onBuyButtonClicked(View view){
         super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
         startActivity(intent);
     }
 
-    public void onClassClicked(View view) {
-        String text = ((Button)view).getText().toString(); //버튼에 적힌 텍스트
-        Intent intent = new Intent(getApplicationContext(), ClassboardActivity.class);
-
-        intent.putExtra("classname", text); //classname으로 ClassboardActivity에 넘김
-
+    public void onPostingButtonClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
         startActivity(intent);
     }
 }
