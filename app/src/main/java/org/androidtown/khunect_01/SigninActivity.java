@@ -95,9 +95,9 @@ public class SigninActivity extends AppCompatActivity {
     private void select_doProcess() {
 
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("http://192.168.219.101:8090/readus/insertuserinfo.do");
+        HttpPost post = new HttpPost("http://www.naver.com");
         ArrayList<NameValuePair> nameValues =
-                new ArrayList<NameValuePair>();
+                new ArrayList<NameValuePair>(3);
 
         try {
             //Post방식으로 넘길 값들을 각각 지정을 해주어야 한다.
