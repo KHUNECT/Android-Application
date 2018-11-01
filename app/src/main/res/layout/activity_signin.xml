@@ -6,107 +6,145 @@
     android:layout_height="match_parent"
     tools:context=".SigninActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="222dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="69dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="69dp"
-        android:contentDescription="@string/khunect로고"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/khunect_logo" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="151dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="157dp"
-        android:text="@string/회원가입"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6">
-
-        <EditText
-            android:id="@+id/text_userNickname"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/닉네임"
-            android:inputType="textPersonName"
-            android:importantForAutofill="no" />
+            android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/text_userID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/아이디"
-            android:inputType="textPersonName"
-            android:importantForAutofill="no" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/text_userPassword1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/패스워드"
-            android:inputType="textPassword"
-            android:importantForAutofill="no" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="222dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="69dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginEnd="69dp"
+                    android:contentDescription="@string/khunect로고"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/khunect_logo" />
 
-        <EditText
-            android:id="@+id/text_userPassword2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/패스워드재입력"
-            android:inputType="textPassword"
-            android:importantForAutofill="no" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="151dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginEnd="157dp"
+                    android:text="@string/회원가입"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+                <LinearLayout
+                    android:id="@+id/linearLayout4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6">
 
-        <Button
-            android:id="@+id/button_signup"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onSignupButtonClicked"
-            android:text="@string/가입" />
+                    <EditText
+                        android:id="@+id/text_userNickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/닉네임"
+                        android:importantForAutofill="no"
+                        android:inputType="textPersonName" />
 
-        <Button
-            android:id="@+id/button_cancel"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onCancelButtonClicked"
-            android:text="@string/취소" />
-    </LinearLayout>
+                    <EditText
+                        android:id="@+id/text_userID"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/아이디"
+                        android:importantForAutofill="no"
+                        android:inputType="textPersonName" />
+
+                    <EditText
+                        android:id="@+id/text_userPassword1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/패스워드"
+                        android:importantForAutofill="no"
+                        android:inputType="textPassword" />
+
+                    <EditText
+                        android:id="@+id/text_userPassword2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/패스워드재입력"
+                        android:importantForAutofill="no"
+                        android:inputType="textPassword" />
+
+                    <EditText
+                        android:id="@+id/text_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/이메일"
+                        android:inputType="textEmailAddress"
+                        android:importantForAutofill="no" />
+
+                    <EditText
+                        android:id="@+id/text_major"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/전공"
+                        android:inputType="textPersonName"
+                        android:importantForAutofill="no" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="50dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+                    <Button
+                        android:id="@+id/button_next"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onNextButtonClicked"
+                        android:text="@string/다음" />
+
+                    <Button
+                        android:id="@+id/button_cancel"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onCancelButtonClicked"
+                        android:text="@string/취소" />
+                </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

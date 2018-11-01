@@ -5,12 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //자동로그인이 아니면
         startLoginActivity();
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         finish();
     }
+
 
 
     public void startLoginActivity(){

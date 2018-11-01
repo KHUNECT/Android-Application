@@ -1,34 +1,11 @@
 package org.androidtown.khunect_01;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.NameValuePair;
-import cz.msebera.android.httpclient.client.ClientProtocolException;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
-import cz.msebera.android.httpclient.client.methods.HttpPost;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.message.BasicNameValuePair;
 
 public class SigninActivity extends AppCompatActivity {
 
@@ -36,28 +13,41 @@ public class SigninActivity extends AppCompatActivity {
     private EditText editTextId;
     private EditText editTextPw1;
     private EditText editTextPw2;
+    private EditText editTextEmail;
+    private EditText editTextMajor;
 
     private String usernickname;
-    private String userpw;
+    private String Pw1;
+    private String Pw2;
     private String userid;
+    private String useremail;
+    private String usermajor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
+
         editTextNickname = (EditText) findViewById((R.id.text_userNickname));
         editTextId = (EditText) findViewById(R.id.text_userID);
         editTextPw1 = (EditText) findViewById(R.id.text_userPassword1);
         editTextPw2 = (EditText) findViewById(R.id.text_userPassword2);
+        editTextEmail = (EditText) findViewById(R.id.text_email);
+        editTextMajor =  (EditText) findViewById(R.id.text_major);
     }
 
-    public void onSignupButtonClicked(View view) {
+    public void onNextButtonClicked(View view) {
+
+
         usernickname = editTextNickname.getText().toString();
         userid = editTextId.getText().toString();
-        String Pw1 = editTextPw1.getText().toString();
-        String Pw2 = editTextPw2.getText().toString();
-
+        Pw1 = editTextPw1.getText().toString();
+        Pw2 = editTextPw2.getText().toString();
+        useremail = editTextEmail.getText().toString();
+        usermajor = editTextMajor.getText().toString();
+/*
         if (usernickname.isEmpty())
         {
             Toast.makeText(getApplicationContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -76,37 +66,56 @@ public class SigninActivity extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않아요.", Toast.LENGTH_SHORT).show();
         }
-        else
+        else if(useremail.isEmpty())
         {
-            Toast.makeText(this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-            userpw = Pw1;
-            select_doProcess();
+            Toast.makeText(getApplicationContext(), "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
+        else if (usermajor.isEmpty())
+        {
+            Toast.makeText(getApplicationContext(), "전공을 입력해주세요.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {*/
+            //Toast.makeText(getApplicationContext(), "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getApplicationContext(), SignupphtoActivity.class);
+
+        intent.putExtra("nickname", usernickname); //classname으로 ClassboardActivity에 넘김
+        intent.putExtra("userid",userid);
+        intent.putExtra("password",Pw1);
+        intent.putExtra("email",useremail);
+        intent.putExtra("major",usermajor);
+
+        startActivity(intent);
+            //select_doProcess();
+
+            //Intent intent = new Intent(getApplicationContext(), SignUpPhotoActivity.class);
+            //startActivity(intent);
+        //}
 
     }
 
     public void onCancelButtonClicked(View view) {
         super.onBackPressed();
     }
-
+/*
     /*
      Post 방식으로 Http 전송하기
-    */
+
     private void select_doProcess() {
 
         HttpClient client = new DefaultHttpClient();
-        HttpPost post = new HttpPost("http://www.naver.com");
+        HttpPost post = new HttpPost("http://13.125.196.191/api/user/create");
         ArrayList<NameValuePair> nameValues =
                 new ArrayList<NameValuePair>(3);
 
         try {
             //Post방식으로 넘길 값들을 각각 지정을 해주어야 한다.
             nameValues.add(new BasicNameValuePair(
-                    "userNickname", URLDecoder.decode(usernickname, "UTF-8")));
+                    "nickname", URLDecoder.decode(usernickname, "UTF-8")));
             nameValues.add(new BasicNameValuePair(
                     "userId", URLDecoder.decode(userid, "UTF-8")));
             nameValues.add(new BasicNameValuePair(
-                    "userPw", URLDecoder.decode(userpw, "UTF-8")));
+                    "password", URLDecoder.decode(userpw, "UTF-8")));
 
             //HttpPost에 넘길 값을들 Set해주기
             post.setEntity(
@@ -130,6 +139,7 @@ public class SigninActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+*/
 /*
     private void inserttoToDatabase(String nickname, String Id, String Pw) {
         class InsertData extends AsyncTask<String, Void, String> {

@@ -42,4 +42,13 @@
     <string name="작성자정보">작성자정보</string>
     <string name="내용2">내용</string>
     <string name="댓글">댓글</string>
+    <string name="이메일">이메일</string>
+    <string name="전공">전공(-과)</string>
+    <string name="프로필사진">프로필 사진</string>
+    <string name="다음">다음</string>
+    <string name="파일선택">파일 선택</string>
+    <string name="todo">TODO</string>
+    <string name="뒤로">뒤로</string>
+    <string name="업로드">업로드</string>
+    <string name="profile">profile</string>
 </resources>
