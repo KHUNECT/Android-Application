@@ -59,13 +59,72 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/layout_bottomborder"
                 android:text="@string/검색결과" />
 
             <Button
                 android:id="@+id/button2"
+                style="?android:borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button"
+                android:background="@drawable/button_gaesimul"
+                android:gravity="left|center"
+                android:text="  [알바] 수누리"
+                tools:layout_editor_absoluteX="136dp"
+                tools:layout_editor_absoluteY="212dp" />
+
+            <Button
+                android:id="@+id/button9"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_gaesimul"
+                android:gravity="left|center"
+                android:text="  [알바] 맥도날드 "
+                tools:layout_editor_absoluteX="136dp"
+                tools:layout_editor_absoluteY="212dp" />
+
+            <Button
+                android:id="@+id/button14"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_gaesimul"
+                android:gravity="left|center"
+                android:text="  [알바] 컹스하네 컹스해"
+                tools:layout_editor_absoluteX="136dp"
+                tools:layout_editor_absoluteY="212dp" />
+
+            <Button
+                android:id="@+id/button19"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_gaesimul"
+                android:gravity="left|center"
+                android:text="  [알바] 상하차"
+                tools:layout_editor_absoluteX="136dp"
+                tools:layout_editor_absoluteY="212dp" />
+
+            <Button
+                android:id="@+id/button24"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_gaesimul"
+                android:gravity="left|center"
+                android:text="  [알바] 라이또 피시방"
+                tools:layout_editor_absoluteX="136dp"
+                tools:layout_editor_absoluteY="212dp" />
+
+            <Button
+                android:id="@+id/button29"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_gaesimul"
+                android:text="  [알바] 어사출또"
+                android:gravity="left|center"
                 tools:layout_editor_absoluteX="136dp"
                 tools:layout_editor_absoluteY="212dp" />
 

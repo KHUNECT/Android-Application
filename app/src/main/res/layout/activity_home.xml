@@ -90,32 +90,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/button_gaesimul"
+                        android:gravity="left|center"
                         android:onClick="onPostClicked"
-                        android:text="Button" />
+                        android:text="  [알바] 상하차 하실 분?" />
 
                     <Button
                         android:id="@+id/button5"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Button"
                         android:background="@drawable/button_gaesimul"
-                        style="?android:attr/borderlessButtonStyle" />
+                        android:gravity="left|center"
+                        android:text="  [스터디] 할리스 자리 있나요~" />
 
                     <Button
                         android:id="@+id/button6"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Button"
                         android:background="@drawable/button_gaesimul"
-                        style="?android:attr/borderlessButtonStyle" />
+                        android:gravity="left|center"
+                        android:text="  [취미] 롤하러 가쉴?" />
 
                     <Button
                         android:id="@+id/button7"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Button"
                         android:background="@drawable/button_gaesimul"
-                        style="?android:attr/borderlessButtonStyle" />
+                        android:gravity="left|center"
+                        android:text="  [동아리] 빛사냥 연극회" />
 
                     <Button
                         android:id="@+id/button_뜨게더보기"
@@ -153,27 +157,30 @@
 
                     <Button
                         android:id="@+id/button10"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Button"
                         android:background="@drawable/button_gaesimul"
-                        style="?android:attr/borderlessButtonStyle" />
+                        android:gravity="left|center"
+                        android:text="  [컴퓨터구조] 과제 어디까지 였나요?" />
 
                     <Button
                         android:id="@+id/button11"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Button"
                         android:background="@drawable/button_gaesimul"
-                        style="?android:attr/borderlessButtonStyle" />
+                        android:gravity="left|center"
+                        android:text="  [소프트웨어적 사유] 시험장소 안내" />
 
                     <Button
                         android:id="@+id/button12"
+                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Button"
                         android:background="@drawable/button_gaesimul"
-                        style="?android:attr/borderlessButtonStyle" />
+                        android:gravity="left|center"
+                        android:text="  [알고리즘 분석] 중간고사 시험 성적 안내" />
 
                     <Button
                         android:id="@+id/button13"

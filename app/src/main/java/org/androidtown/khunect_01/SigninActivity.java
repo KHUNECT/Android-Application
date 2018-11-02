@@ -1,11 +1,38 @@
 package org.androidtown.khunect_01;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
+
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.NameValuePair;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
 
 public class SigninActivity extends AppCompatActivity {
 
@@ -15,13 +42,7 @@ public class SigninActivity extends AppCompatActivity {
     private EditText editTextPw2;
     private EditText editTextEmail;
     private EditText editTextMajor;
-
-    private String usernickname;
-    private String Pw1;
-    private String Pw2;
-    private String userid;
-    private String useremail;
-    private String usermajor;
+    private ImageView image_profile;
 
 
     @Override
@@ -36,17 +57,54 @@ public class SigninActivity extends AppCompatActivity {
         editTextPw2 = (EditText) findViewById(R.id.text_userPassword2);
         editTextEmail = (EditText) findViewById(R.id.text_email);
         editTextMajor =  (EditText) findViewById(R.id.text_major);
+
+        image_profile = (ImageView)findViewById(R.id.imageView_profile);
+
     }
 
-    public void onNextButtonClicked(View view) {
+
+    private int PICK_IMAGE_REQUEST = 1;
+
+    public void onUploadButtonClicked (View view){
+
+        Intent intent = new Intent();
+// Show only images, no videos or anything else
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+// Always show the chooser (if there are multiple options available)
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+
+                image_profile.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void onSignupButtonClicked(View view) throws UnsupportedEncodingException {
 
 
-        usernickname = editTextNickname.getText().toString();
-        userid = editTextId.getText().toString();
-        Pw1 = editTextPw1.getText().toString();
-        Pw2 = editTextPw2.getText().toString();
-        useremail = editTextEmail.getText().toString();
-        usermajor = editTextMajor.getText().toString();
+        String nickname = editTextNickname.getText().toString();
+        String userId = editTextId.getText().toString();
+        String pw1 = editTextPw1.getText().toString();
+        String pw2 = editTextPw2.getText().toString();
+        String email = editTextEmail.getText().toString();
+        String major = editTextMajor.getText().toString();
+
+        sendPost();
+        Toast.makeText(this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
 /*
         if (usernickname.isEmpty())
         {
@@ -76,28 +134,58 @@ public class SigninActivity extends AppCompatActivity {
         }
         else
         {*/
-            //Toast.makeText(getApplicationContext(), "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getApplicationContext(), SignupphtoActivity.class);
-
-        intent.putExtra("nickname", usernickname); //classname으로 ClassboardActivity에 넘김
-        intent.putExtra("userid",userid);
-        intent.putExtra("password",Pw1);
-        intent.putExtra("email",useremail);
-        intent.putExtra("major",usermajor);
-
-        startActivity(intent);
-            //select_doProcess();
-
-            //Intent intent = new Intent(getApplicationContext(), SignUpPhotoActivity.class);
-            //startActivity(intent);
-        //}
+        // Create a new HttpClient and Post Header
 
     }
 
     public void onCancelButtonClicked(View view) {
         super.onBackPressed();
     }
-/*
+
+
+
+
+    public void sendPost() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://13.125.196.191/user/create");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject jsonParam = new JSONObject();
+                    jsonParam.put("userId", editTextId.toString());
+                    jsonParam.put("nickname", editTextNickname.toString());
+                    jsonParam.put("password", editTextPw1.toString());
+                    jsonParam.put("email", editTextEmail.toString());
+                    jsonParam.put("major", editTextMajor.toString());
+
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    os.writeBytes(jsonParam.toString());
+
+                    os.flush();
+                    os.close();
+
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG" , conn.getResponseMessage());
+
+                    conn.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
+    }
+
     /*
      Post 방식으로 Http 전송하기
 
@@ -138,61 +226,6 @@ public class SigninActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-*/
-/*
-    private void inserttoToDatabase(String nickname, String Id, String Pw) {
-        class InsertData extends AsyncTask<String, Void, String> {
-            ProgressDialog loading;
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                loading = ProgressDialog.show(SigninActivity.this, "Please Wait", null, true, true);
-            }
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                loading.dismiss();
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-            }
-            @Override
-            protected String doInBackground(String... params) {
-
-                try {
-                    String Id = (String) params[0];
-                    String Pw = (String) params[1];
-
-                    String link = "http://본인PC IP주소/post.php";
-                    String data = URLEncoder.encode("Id", "UTF-8") + "=" + URLEncoder.encode(Id, "UTF-8");
-                    data += "&" + URLEncoder.encode("Pw", "UTF-8") + "=" + URLEncoder.encode(Pw, "UTF-8");
-
-                    URL url = new URL(link);
-                    URLConnection conn = url.openConnection();
-
-                    conn.setDoOutput(true);
-                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
-                    wr.write(data);
-                    wr.flush();
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-
-                    // Read Server Response
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                        break;
-                    }
-                    return sb.toString();
-                } catch (Exception e) {
-                    return new String("Exception: " + e.getMessage());
-                }
-            }
-        }
-        InsertData task = new InsertData();
-        task.execute(Id, Pw);
     }
 */
 }
