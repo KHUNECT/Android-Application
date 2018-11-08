@@ -1,6 +1,7 @@
 package org.androidtown.khunect_01;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -9,32 +10,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
-
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.NameValuePair;
-import cz.msebera.android.httpclient.client.ClientProtocolException;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
-import cz.msebera.android.httpclient.client.methods.HttpPost;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.nio.file.Files;
 
 public class SigninActivity extends AppCompatActivity {
 
@@ -45,6 +41,14 @@ public class SigninActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextMajor;
     private ImageView image_profile;
+
+    private static String nickname;
+    private static String userId;
+    private static String pw1;
+    private static String pw2;
+    private static String email;
+    private static String major;
+    private static String selectedImagePath = null;
 
 
     @Override
@@ -58,17 +62,17 @@ public class SigninActivity extends AppCompatActivity {
         editTextPw1 = (EditText) findViewById(R.id.text_userPassword1);
         editTextPw2 = (EditText) findViewById(R.id.text_userPassword2);
         editTextEmail = (EditText) findViewById(R.id.text_email);
-        editTextMajor =  (EditText) findViewById(R.id.text_major);
+        editTextMajor = (EditText) findViewById(R.id.text_major);
 
-        image_profile = (ImageView)findViewById(R.id.imageView_profile);
+        image_profile = (ImageView) findViewById(R.id.imageView_profile);
 
     }
 
 
     private int PICK_IMAGE_REQUEST = 1;
+    private static final int SELECT_PICTURE = 1;
 
-    public void onUploadButtonClicked (View view)
-    {
+    public void onUploadButtonClicked(View view) {
 
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -77,71 +81,85 @@ public class SigninActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == 1) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 try {
+
+                    if (resultCode == RESULT_OK) {
+                        if (requestCode == SELECT_PICTURE) {
+                            // 선택한 이미지에서 비트맵 생성
+                            InputStream in = getContentResolver().openInputStream(data.getData());
+                            Bitmap img = BitmapFactory.decodeStream(in);
+                            in.close();
+                            // 이미지 표시
+                            image_profile.setImageBitmap(img);
+
+                            Uri selectedImageUri = data.getData();
+                            selectedImagePath = getPath(selectedImageUri);
+                        }
+                    }
+                    /*
                     // 선택한 이미지에서 비트맵 생성
                     InputStream in = getContentResolver().openInputStream(data.getData());
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
                     // 이미지 표시
                     image_profile.setImageBitmap(img);
+*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            
         }
     }
 
+    public String getPath(Uri uri) {
+        // uri가 null일경우 null반환
+        if( uri == null ) {
+            return null;
+        }
+        // 미디어스토어에서 유저가 선택한 사진의 URI를 받아온다.
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        // URI경로를 반환한다.
+        return uri.getPath();
+    }
 
-    public void onSignupButtonClicked(View view) throws UnsupportedEncodingException
-    {
+
+    public void onSignupButtonClicked(View view) throws Exception {
+        nickname = editTextNickname.getText().toString();
+        userId = editTextId.getText().toString();
+        pw1 = editTextPw1.getText().toString();
+        pw2 = editTextPw2.getText().toString();
+        email = editTextEmail.getText().toString();
+        major = editTextMajor.getText().toString();
 
 
-        String nickname = editTextNickname.getText().toString();
-        String userId = editTextId.getText().toString();
-        String pw1 = editTextPw1.getText().toString();
-        String pw2 = editTextPw2.getText().toString();
-        String email = editTextEmail.getText().toString();
-        String major = editTextMajor.getText().toString();
-
-        sendPost();
-        Toast.makeText(this, "가입이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-/*
-        if (usernickname.isEmpty())
-        {
+        if (nickname.isEmpty()) {
             Toast.makeText(getApplicationContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
-        }
-
-        else if (userid.isEmpty())
-        {
+        } else if (userId.isEmpty()) {
             Toast.makeText(getApplicationContext(), "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
-        }
-
-        else if (Pw1.isEmpty() || Pw2.isEmpty())
-        {
+        } else if (pw1.isEmpty() || pw2.isEmpty()) {
             Toast.makeText(getApplicationContext(), "패스워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
-        }
-        else if (!Pw1.equals(Pw2))
-        {
+        } else if (!pw1.equals(pw2)) {
             Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않아요.", Toast.LENGTH_SHORT).show();
-        }
-        else if(useremail.isEmpty())
-        {
+        } else if (email.isEmpty()) {
             Toast.makeText(getApplicationContext(), "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
-        }
-        else if (usermajor.isEmpty())
-        {
+        } else if (major.isEmpty()) {
             Toast.makeText(getApplicationContext(), "전공을 입력해주세요.", Toast.LENGTH_SHORT).show();
+        } else {
+            send_post();
         }
-        else
-        {*/
-        // Create a new HttpClient and Post Header
-
     }
 
     public void onCancelButtonClicked(View view) {
@@ -149,49 +167,99 @@ public class SigninActivity extends AppCompatActivity {
     }
 
 
-
-
-    public void sendPost() {
+    public static void send_post() throws Exception {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                String url = "http://13.125.196.191/api/user/create";
+                String charset = "UTF-8";
+                //File textFile = new File("C:\\asdf\\hello.jpg");
+                //File binaryFile = new File(selectedImagePath);
+                String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
+                String CRLF = "\r\n"; // Line separator required by multipart/form-data.
+
+                URLConnection connection = null;
                 try {
-                    URL url = new URL("http://13.125.196.191/api/user/create");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                    conn.setRequestProperty("Accept","application/json");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
+                    connection = new URL(url).openConnection();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
-                    JSONObject jsonParam = new JSONObject();
-                    jsonParam.put("userId", editTextId.toString());
-                    jsonParam.put("nickname", editTextNickname.toString());
-                    jsonParam.put("password", editTextPw1.toString());
-                    jsonParam.put("email", editTextEmail.toString());
-                    jsonParam.put("major", editTextMajor.toString());
+                try (
+                        OutputStream output = connection.getOutputStream();
+                        PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
+                ) {
+                    // Send normal param.
+                    writer.append("--" + boundary).append(CRLF);
+                    writer.append("Content-Disposition: form-data; name=\"userId\"").append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + userId).append(CRLF);
+                    writer.append(CRLF).append(userId).append(CRLF).flush();
 
-                    Log.i("JSON", jsonParam.toString());
-                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
-                    os.writeBytes(jsonParam.toString());
+                    writer.append("--" + boundary).append(CRLF);
+                    writer.append("Content-Disposition: form-data; name=\"password\"").append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + pw1).append(CRLF);
+                    writer.append(CRLF).append(pw1).append(CRLF).flush();
 
-                    os.flush();
-                    os.close();
+                    writer.append("--" + boundary).append(CRLF);
+                    writer.append("Content-Disposition: form-data; name=\"nickname\"").append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + nickname).append(CRLF);
+                    writer.append(CRLF).append(nickname).append(CRLF).flush();
 
-                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-                    Log.i("MSG" , conn.getResponseMessage());
+                    writer.append("--" + boundary).append(CRLF);
+                    writer.append("Content-Disposition: form-data; name=\"email\"").append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + email).append(CRLF);
+                    writer.append(CRLF).append(email).append(CRLF).flush();
 
-                    conn.disconnect();
-                } catch (Exception e) {
+                    writer.append("--" + boundary).append(CRLF);
+                    writer.append("Content-Disposition: form-data; name=\"major\"").append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + major).append(CRLF);
+                    writer.append(CRLF).append(major).append(CRLF).flush();
+
+
+
+            // Send binary file.
+                    if (selectedImagePath != null) {
+                        File binaryFile = new File(selectedImagePath);
+                        writer.append("--" + boundary).append(CRLF);
+                        writer.append("Content-Disposition: form-data; name=\"image\"; filename=\"" + binaryFile.getName() + "\"").append(CRLF);
+                        writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(binaryFile.getName())).append(CRLF);
+                        writer.append("Content-Transfer-Encoding: binary").append(CRLF);
+                        writer.append(CRLF).flush();
+                        //Files.copy(binaryFile.toPath(), output);
+                        //output.flush(); // Important before continuing with writer!
+                        writer.append(CRLF).flush(); // CRLF is important! It indicates end of boundary.
+                    }
+                    // End of multipart/form-data.
+                    writer.append("--" + boundary + "--").append(CRLF).flush();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // Request is lazily fired whenever you need to obtain information about response.
+                int responseCode = 0;
+                try {
+                    responseCode = ((HttpURLConnection) connection).getResponseCode();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Log.i("Response Code", Integer.toString(responseCode));
+                try {
+                    Log.i("MSG" , ((HttpURLConnection) connection).getResponseMessage());
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
-
         thread.start();
     }
 
+
+};
     /*
      Post 방식으로 Http 전송하기
 
@@ -233,5 +301,7 @@ public class SigninActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-*/
-}
+
+        }
+
+    }*/
