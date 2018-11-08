@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 public class AdsAlbaActivity extends AppCompatActivity {
-    private String className = "AdsAlba";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +43,15 @@ public class AdsAlbaActivity extends AppCompatActivity {
         startActivity(intent);
     }//#
 
+    public void onContestButtonClicked(View view) {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), AdsContestActivity.class);
+        startActivity(intent);
+    }
+
     public void onPostingButtonClicked(View view) {
         Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
+        intent.putExtra("boardid","alba");
         startActivity(intent);
     }
 }

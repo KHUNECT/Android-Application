@@ -9,6 +9,7 @@ import android.widget.TextView;
 public class ClassboardActivity extends AppCompatActivity {
     private String className = "Classboard";
 
+    private static String classnumber = "학수번호";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,7 @@ public class ClassboardActivity extends AppCompatActivity {
 
     public void onPostingButtonClicked(View view) {
         Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
+        intent.putExtra("boardid", "학수번호");
         startActivity(intent);
     }
 }

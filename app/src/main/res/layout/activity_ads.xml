@@ -10,14 +10,14 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="432dp"
+        android:layout_marginTop="450dp"
         android:layout_marginEnd="24dp"
         android:clickable="true"
         android:onClick="onPostingButtonClicked"
-        app:backgroundTint="@color/invisible_Kyunghee"
+        app:backgroundTint="@color/colorKyungheeLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:srcCompat="@drawable/add" />
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
@@ -53,6 +53,16 @@
                     android:onClick="onAlbaButtonClicked"
                     android:text="@string/알바"
                     android:textColor="@color/gray_notselected" />
+
+                <Button
+                    android:id="@+id/button_공모전"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onContestButtonClicked"
+                    android:text="@string/공모전"
+                    android:textColor="@color/gray_notselected" />
             </LinearLayout>
 
             <ScrollView
@@ -85,7 +95,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="700dp"
                         android:background="@drawable/button_gaesimul"
-                        android:onClick="onButtonClicked"
                         android:text="Button" />
 
                     <Button

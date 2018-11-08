@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 public class TradeSellActivity extends AppCompatActivity {
-    private String className = "TradeSell";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,7 @@ public class TradeSellActivity extends AppCompatActivity {
 
     public void onPostingButtonClicked(View view) {
         Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
+        intent.putExtra("boardid","market");
         startActivity(intent);
     }
 }

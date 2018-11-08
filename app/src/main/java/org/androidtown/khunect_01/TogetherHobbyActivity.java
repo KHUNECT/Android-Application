@@ -45,6 +45,7 @@ public class TogetherHobbyActivity extends AppCompatActivity {
 
     public void onPostingButtonClicked(View view) {
         Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
+        intent.putExtra("boardid","hobby");
         startActivity(intent);
     }
 }

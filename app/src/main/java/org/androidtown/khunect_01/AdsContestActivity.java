@@ -1,19 +1,19 @@
 package org.androidtown.khunect_01;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class TradeActivity extends AppCompatActivity {
+public class AdsContestActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trade);
+        setContentView(R.layout.activity_ads_contest);
     }
 
+    //MenuButtons
     public void onClickedHomeButton(View view) {
         super.onBackPressed();
     }
@@ -24,9 +24,9 @@ public class TradeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickedAdsButton(View view) {
+    public void onClickedTradeButton(View view) {
         super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(), AdsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
         startActivity(intent);
     }
 
@@ -34,17 +34,24 @@ public class TradeActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(), MyClassActivity.class);
         startActivity(intent);
-    }
+    }//#
 
-    public void onSellButtonClicked(View view){
+    //동아리버튼
+    public void onCircleButtonClicked(View view) {
         super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(), TradeSellActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AdsActivity.class);
+        startActivity(intent);
+    }//#
+
+    public void onAlbaButtonClicked(View view) {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), AdsAlbaActivity.class);
         startActivity(intent);
     }
 
     public void onPostingButtonClicked(View view) {
         Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
-        intent.putExtra("boardid","market");
+        intent.putExtra("boardid","contest");
         startActivity(intent);
     }
 }

@@ -7,17 +7,17 @@
     tools:context=".ClassboardActivity">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton7"
+        android:id="@+id/floatingActionButton6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="432dp"
+        android:layout_marginTop="450dp"
         android:layout_marginEnd="24dp"
         android:clickable="true"
         android:onClick="onPostingButtonClicked"
-        app:backgroundTint="@color/invisible_Kyunghee"
+        app:backgroundTint="@color/colorKyungheeLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:srcCompat="@drawable/add" />
 
     <ScrollView
         android:scrollbars="none"

@@ -58,11 +58,11 @@ public class LoginActivity extends AppCompatActivity {
         userId = editTextId.getText().toString();
         password = editTextPassword.getText().toString();
 
-        if(!userId.isEmpty()) {
-            sendget();
-/*
+        if(!userId.isEmpty() && !password.isEmpty()) { //로그인 api는 post임 수정해야함.
+            //sendget();
+
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-            startActivity(intent);*/
+            startActivity(intent);
         }
         else{
             Toast.makeText(this, "로그인 정보를 입력해주세요.", Toast.LENGTH_SHORT).show();

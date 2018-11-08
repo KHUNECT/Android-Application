@@ -51,4 +51,6 @@
     <string name="뒤로">뒤로</string>
     <string name="업로드">업로드</string>
     <string name="profile">profile</string>
+    <string name="공모전">공모전</string>
+    <string name="장터">거래</string>
 </resources>

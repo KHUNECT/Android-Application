@@ -19,12 +19,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/textView_boardName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/roundedborder"
             android:gravity="center"
-            android:text="@string/게시판이름"
             android:textColor="@android:color/black"
             android:textSize="24sp"
             android:textStyle="bold" />

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Toast;
 
 public class AdsActivity extends AppCompatActivity {
-    private String className = "Ads";
 
 
     @Override
@@ -46,13 +45,15 @@ public class AdsActivity extends AppCompatActivity {
         startActivity(intent);
     }//#
 
-    public void onButtonClicked(View view)
-    {
-        Toast.makeText(this, "뒤에 버튼이 눌렸어요.", Toast.LENGTH_SHORT).show();
-    }
-
     public void onPostingButtonClicked(View view) {
         Intent intent = new Intent(getApplicationContext(), PostingActivity.class);
+        intent.putExtra("boardid","club");
+        startActivity(intent);
+    }
+
+    public void onContestButtonClicked(View view) {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), AdsContestActivity.class);
         startActivity(intent);
     }
 }
