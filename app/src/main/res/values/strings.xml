@@ -53,4 +53,6 @@
     <string name="profile">profile</string>
     <string name="공모전">공모전</string>
     <string name="장터">거래</string>
+    <string name="이미지업로드버튼">이미지업로드버튼</string>
+    <string name="업로드이미지삭제">업로드이미지삭제</string>
 </resources>

@@ -14,14 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -29,10 +24,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 
 public class SigninActivity extends AppCompatActivity {
+
+    private static int response_code = 0;
 
     private EditText editTextNickname;
     private EditText editTextId;
@@ -159,6 +155,14 @@ public class SigninActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "전공을 입력해주세요.", Toast.LENGTH_SHORT).show();
         } else {
             send_post();
+            if(response_code == 200)
+            {
+                Toast.makeText(getApplicationContext(), "회원가입이 정상적으로 처리되었습니다.", Toast.LENGTH_SHORT).show();
+                super.onBackPressed();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "알 수 없는 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -227,8 +231,8 @@ public class SigninActivity extends AppCompatActivity {
                         writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(binaryFile.getName())).append(CRLF);
                         writer.append("Content-Transfer-Encoding: binary").append(CRLF);
                         writer.append(CRLF).flush();
-                        //Files.copy(binaryFile.toPath(), output);
-                        //output.flush(); // Important before continuing with writer!
+                        Files.copy(binaryFile.toPath(), output);
+                        output.flush(); // Important before continuing with writer!
                         writer.append(CRLF).flush(); // CRLF is important! It indicates end of boundary.
                     }
                     // End of multipart/form-data.
@@ -243,6 +247,7 @@ public class SigninActivity extends AppCompatActivity {
                 int responseCode = 0;
                 try {
                     responseCode = ((HttpURLConnection) connection).getResponseCode();
+                    response_code = responseCode;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -256,6 +261,7 @@ public class SigninActivity extends AppCompatActivity {
             }
         });
         thread.start();
+        thread.join();
     }
 
 
