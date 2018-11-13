@@ -5,16 +5,18 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -28,8 +30,9 @@ import java.nio.file.Files;
 
 public class SigninActivity extends AppCompatActivity {
 
-    private static int response_code = 0;
+    private static int response_code;
 
+    private EditText editTextName;
     private EditText editTextNickname;
     private EditText editTextId;
     private EditText editTextPw1;
@@ -38,6 +41,7 @@ public class SigninActivity extends AppCompatActivity {
     private EditText editTextMajor;
     private ImageView image_profile;
 
+    private static String name;
     private static String nickname;
     private static String userId;
     private static String pw1;
@@ -52,7 +56,9 @@ public class SigninActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
+        response_code = 0;
 
+        editTextName = (EditText) findViewById((R.id.text_name));
         editTextNickname = (EditText) findViewById((R.id.text_userNickname));
         editTextId = (EditText) findViewById(R.id.text_userID);
         editTextPw1 = (EditText) findViewById(R.id.text_userPassword1);
@@ -133,6 +139,7 @@ public class SigninActivity extends AppCompatActivity {
 
 
     public void onSignupButtonClicked(View view) throws Exception {
+        name = editTextName.getText().toString();
         nickname = editTextNickname.getText().toString();
         userId = editTextId.getText().toString();
         pw1 = editTextPw1.getText().toString();
@@ -141,7 +148,10 @@ public class SigninActivity extends AppCompatActivity {
         major = editTextMajor.getText().toString();
 
 
-        if (nickname.isEmpty()) {
+
+        if(name.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
+        } else if (nickname.isEmpty()) {
             Toast.makeText(getApplicationContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
         } else if (userId.isEmpty()) {
             Toast.makeText(getApplicationContext(), "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -155,14 +165,36 @@ public class SigninActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "전공을 입력해주세요.", Toast.LENGTH_SHORT).show();
         } else {
             send_post();
-            if(response_code == 200)
-            {
-                Toast.makeText(getApplicationContext(), "회원가입이 정상적으로 처리되었습니다.", Toast.LENGTH_SHORT).show();
-                super.onBackPressed();
-            }
-            else{
+                if(response_code == 200) {
+                Toast.makeText(getApplicationContext(), name+" 회원가입 성공", Toast.LENGTH_SHORT).show();}
+                else{
                 Toast.makeText(getApplicationContext(), "알 수 없는 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                }
+/*
+            RequestParams params = new RequestParams();
+            Log.i("Msg", "Signup continue");
+            params.put("userId", userId);
+            params.put("password", pw1);
+            params.put("nickname", nickname);
+            params.put("email", email);
+            params.put("major", major);
+            if(selectedImagePath != null) {
+                File binaryFile = new File(selectedImagePath);
+                params.put("image", binaryFile);
             }
+            HttpClient.post("user/create", params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                    Log.i("Msg", "responsecode "+i);
+                    response_code = i;
+                }
+
+                @Override
+                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                    Log.i("Msg", "responsecode "+i);
+                    response_code = i;
+                }
+            });*/
         }
     }
 
@@ -192,10 +224,18 @@ public class SigninActivity extends AppCompatActivity {
                 connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
                 try (
+
                         OutputStream output = connection.getOutputStream();
-                        PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
+                        PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, "UTF-8"), true);
                 ) {
+
                     // Send normal param.
+
+                    writer.append("--" + boundary).append(CRLF);
+                    writer.append("Content-Disposition: form-data; name=\"name\"").append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + name).append(CRLF);
+                    writer.append(CRLF).append(name).append(CRLF).flush();
+
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"userId\"").append(CRLF);
                     writer.append("Content-Type: text/plain; charset=" + userId).append(CRLF);
@@ -226,8 +266,26 @@ public class SigninActivity extends AppCompatActivity {
             // Send binary file.
                     if (selectedImagePath != null) {
                         File binaryFile = new File(selectedImagePath);
+
+                        FileInputStream fis = new FileInputStream(binaryFile);
+                        //create FileInputStream which obtains input bytes from a file in a file system
+                        //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
+
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                        byte[] buf = new byte[1024];
+                        try {
+                            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                                //Writes to this byte array output stream
+                                bos.write(buf, 0, readNum);
+                                System.out.println("read " + readNum + " bytes,");
+                            }
+                        } catch (IOException ex) {
+                            //Logger.getLogger(ConvertImage.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        byte[] bytes = bos.toByteArray();
+
                         writer.append("--" + boundary).append(CRLF);
-                        writer.append("Content-Disposition: form-data; name=\"image\"; filename=\"" + binaryFile.getName() + "\"").append(CRLF);
+                        writer.append("Content-Disposition: form-data; name=\"image\"; filename=\"" + bytes + "\"").append(CRLF);
                         writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(binaryFile.getName())).append(CRLF);
                         writer.append("Content-Transfer-Encoding: binary").append(CRLF);
                         writer.append(CRLF).flush();
@@ -235,8 +293,10 @@ public class SigninActivity extends AppCompatActivity {
                         output.flush(); // Important before continuing with writer!
                         writer.append(CRLF).flush(); // CRLF is important! It indicates end of boundary.
                     }
+
                     // End of multipart/form-data.
                     writer.append("--" + boundary + "--").append(CRLF).flush();
+
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -247,11 +307,11 @@ public class SigninActivity extends AppCompatActivity {
                 int responseCode = 0;
                 try {
                     responseCode = ((HttpURLConnection) connection).getResponseCode();
-                    response_code = responseCode;
+                    //response_code = responseCode;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+                response_code = responseCode;
                 Log.i("Response Code", Integer.toString(responseCode));
                 try {
                     Log.i("MSG" , ((HttpURLConnection) connection).getResponseMessage());

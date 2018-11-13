@@ -45,7 +45,8 @@
         <activity android:name=".HotgaeActivity" />
         <activity android:name=".PostingActivity" />
         <activity android:name=".PostActivity" />
-        <activity android:name=".AdsContestActivity"></activity>
+        <activity android:name=".AdsContestActivity" />
+        <activity android:name=".Signupklas"></activity>
     </application>
 
 </manifest>

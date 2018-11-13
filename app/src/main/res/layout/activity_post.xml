@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_gaesimul"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="@string/댓글"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"

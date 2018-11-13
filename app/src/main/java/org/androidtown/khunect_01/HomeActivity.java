@@ -1,9 +1,8 @@
 package org.androidtown.khunect_01;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -85,6 +84,11 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onPostClicked(View view) {
         Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+        startActivity(intent);
+    }
+
+    public void onKLASClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), Signupklas.class);
         startActivity(intent);
     }
 }
