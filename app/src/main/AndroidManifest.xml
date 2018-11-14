@@ -50,7 +50,7 @@
         <activity android:name=".Modifyuser" />
         <activity android:name=".ModifyprofileActivity" />
         <activity android:name=".ModnicknameActivity" />
-        <activity android:name=".ModpasswordActivity"></activity>
+        <activity android:name=".ModpasswordActivity" />
     </application>
 
 </manifest>

@@ -6,4 +6,71 @@
     android:layout_height="match_parent"
     tools:context=".ModnicknameActivity">
 
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_gaesimul"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/full_border"
+            android:text="@string/닉네임변경"
+            android:textColor="@color/Black"
+            android:textSize="30sp" />
+
+        <EditText
+            android:id="@+id/editText_nick"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/full_border"
+            android:ems="10"
+            android:hint="@string/새닉네임"
+            android:inputType="textPersonName"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editText_pass"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/button_gaesimul"
+            android:ems="10"
+            android:hint="@string/현재비밀번호"
+            android:inputType="textPassword"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/colorKyunghee"
+                android:onClick="onApplyClicked"
+                android:text="@string/적용"
+                android:textColor="@color/White" />
+
+            <Button
+                android:id="@+id/button31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/colorKyunghee"
+                android:onClick="OnCancelClicked"
+                android:text="@string/취소"
+                android:textColor="@color/White" />
+        </LinearLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

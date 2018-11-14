@@ -57,77 +57,9 @@
                             android:textColor="@color/colorKyunghee"
                             android:textSize="@dimen/레이아웃설명" />
 
-                        <Button
-                            android:id="@+id/button_class1"
+                        <ListView
                             android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:onClick="onClassClicked"
-                            android:text="Class1"
-                            android:background="@drawable/button_gaesimul"
-                            style="?android:attr/borderlessButtonStyle" />
-
-                        <Button
-                            android:id="@+id/button_class2"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:onClick="onClassClicked"
-                            android:text="Class2"
-                            android:background="@drawable/button_gaesimul"
-                            style="?android:attr/borderlessButtonStyle" />
-
-                        <Button
-                            android:id="@+id/button_class3"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:onClick="onClassClicked"
-                            android:text="Class3"
-                            android:background="@drawable/button_gaesimul"
-                            style="?android:attr/borderlessButtonStyle" />
-
-                        <Button
-                            android:id="@+id/button_class4"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:onClick="onClassClicked"
-                            android:text="Class4"
-                            android:background="@drawable/button_gaesimul"
-                            style="?android:attr/borderlessButtonStyle" />
-
-                        <Button
-                            android:id="@+id/button_class5"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:onClick="onClassClicked"
-                            android:text="Class5"
-                            android:background="@drawable/button_gaesimul"
-                            style="?android:attr/borderlessButtonStyle" />
-
-                        <Button
-                            android:id="@+id/button_class6"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:onClick="onClassClicked"
-                            android:text="Class6"
-                            android:background="@drawable/button_gaesimul"
-                            style="?android:attr/borderlessButtonStyle" />
-
-                        <Button
-                            android:id="@+id/button_class7"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:onClick="onClassClicked"
-                            android:text="Class7"
-                            android:background="@drawable/button_gaesimul"
-                            style="?android:attr/borderlessButtonStyle" />
-
-                        <Button
-                            android:id="@+id/button_class8"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:onClick="onClassClicked"
-                            android:text="Class8"
-                            android:background="@drawable/button_gaesimul"
-                            style="?android:attr/borderlessButtonStyle" />
+                            android:layout_height="match_parent" />
 
                     </LinearLayout>
 

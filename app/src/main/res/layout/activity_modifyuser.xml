@@ -33,6 +33,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/button_gaesimul"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -43,13 +44,48 @@
                 android:background="@drawable/full_border"
                 android:contentDescription="@string/profile"
                 app:srcCompat="@drawable/avatar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView9_userid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/textView10_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/textView11_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/textView12_major"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <Button
             android:id="@+id/button_modimage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_topborder"
+            android:background="@drawable/button_gaesimul"
             android:onClick="onProfileClicked"
             android:text="@string/프로필사진수정" />
 
@@ -57,7 +93,7 @@
             android:id="@+id/button_modnick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_topborder"
+            android:background="@drawable/button_gaesimul"
             android:onClick="onNickClicked"
             android:text="@string/닉네임변경" />
 
@@ -65,9 +101,18 @@
             android:id="@+id/button_modpw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_topborder"
+            android:background="@drawable/button_gaesimul"
             android:onClick="onPasswordClicked"
             android:text="@string/비밀번호변경" />
+
+        <Button
+            android:id="@+id/button_klas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_gaesimul"
+            android:onClick="onKlasClicked"
+            android:text="@string/KLAS연동하기"
+            android:textColor="@color/colorKyungheeLight" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

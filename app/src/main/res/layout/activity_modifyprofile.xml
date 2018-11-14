@@ -7,31 +7,67 @@
     tools:context=".ModifyprofileActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="128dp"
         android:background="@drawable/full_border"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/button_upload2"
-        app:layout_constraintEnd_toStartOf="@+id/button_upload2"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView_profile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:id="@+id/imageView_profile3"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:contentDescription="@string/profile"
             app:srcCompat="@drawable/avatar" />
     </LinearLayout>
 
     <Button
         android:id="@+id/button_upload2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:background="@drawable/button_gaesimul"
         android:onClick="onUploadButtonClicked"
         android:text="@string/파일선택"
-        android:textColor="@color/gray_notselected" />
+        android:textColor="@color/gray_notselected"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout12" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_upload2">
+
+        <Button
+            android:id="@+id/button31_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorKyunghee"
+            android:onClick="onApplyClicked"
+            android:text="@string/적용"
+            android:textColor="@color/White" />
+
+        <Button
+            android:id="@+id/button32_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorKyunghee"
+            android:onClick="onCancelClicked"
+            android:text="@string/취소"
+            android:textColor="@color/White" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

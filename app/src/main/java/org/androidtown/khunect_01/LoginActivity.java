@@ -8,9 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.PersistentCookieStore;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,7 +24,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -46,10 +42,6 @@ public class LoginActivity extends AppCompatActivity {
 
         editTextId = (EditText) findViewById(R.id.InputText_ID);
         editTextPassword = (EditText) findViewById(R.id.InputText_PW);
-
-        AsyncHttpClient client = HttpClient.getInstance();
-        PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
-        client.setCookieStore((myCookieStore));
     }
 
 
@@ -76,16 +68,16 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginButtonClicked(View view) throws Exception {
         userId = editTextId.getText().toString();
         password = editTextPassword.getText().toString();
-        /*sendpostJSON();
-        if(response_code == 200) {*/
+        sendpostJSON();
+        if(response_code == 200) {
             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
             sendget();
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
-        /*}
+        }
         else{
-            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
-        }*/
+            Toast.makeText(getApplicationContext(), "아이디나 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+        }
 
         /*RequestParams params = new RequestParams();
         if(!userId.isEmpty() && !password.isEmpty()) { //로그인 api는 post임 수정해야함.
@@ -140,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                 ) {
                     // Send normal param.
                     writer.append("--" + boundary).append(CRLF);
-                    writer.append("Content-Disposition: form-data; name=\"userId\"").append(CRLF);
+                    writer.append("Content-Disposition: form-data; name=\"objectId\"").append(CRLF);
                     writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
                     writer.append(CRLF).append(userId).append(CRLF).flush();
 
@@ -197,16 +189,33 @@ public class LoginActivity extends AppCompatActivity {
 
                     Log.i("JSON", jsonParam.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                    os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
                     os.writeBytes(jsonParam.toString());
 
                     os.flush();
                     os.close();
 
-                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    response_code = conn.getResponseCode();
+                    Log.i("STATUS", String.valueOf(response_code));
                     Log.i("MSG" , conn.getResponseMessage());
 
+
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+                    //print result
+                    Log.i("Result",response.toString());
+
+                    JSONObject obj = new JSONObject(response.toString());
+                    User_detail.ObjectId = obj.getString("_id");
+
                     conn.disconnect();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

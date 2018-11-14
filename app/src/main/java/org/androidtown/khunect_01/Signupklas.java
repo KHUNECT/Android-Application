@@ -1,5 +1,6 @@
 package org.androidtown.khunect_01;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -7,14 +8,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class Signupklas extends AppCompatActivity {
 
@@ -24,8 +24,8 @@ public class Signupklas extends AppCompatActivity {
     private EditText Text_klaspw;
 
     private static String userId = "";
-    private static String klasId;
-    private static String klasPassword;
+    private static String klasId = "";
+    private static String klasPassword = "";
 
 
     @Override
@@ -50,8 +50,10 @@ public class Signupklas extends AppCompatActivity {
             if (response_code == 200) {
 
                 Toast.makeText(getApplicationContext(), "연동 성공", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
             } else {
-                Toast.makeText(getApplicationContext(), "알 수 없는 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "KLAS 정보를 다시 입력해주세요.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -60,66 +62,63 @@ public class Signupklas extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = "http://13.125.196.191/api/user/setLecture";
-                String charset = "UTF-8";
-                String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
-                String CRLF = "\r\n"; // Line separator required by multipart/form-data.
-
-                URLConnection connection = null;
                 try {
-                    connection = new URL(url).openConnection();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                connection.setDoOutput(true);
-                connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+                    URL url = new URL("http://13.125.196.191/api/user/setLecture");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
 
-                try (
-                        OutputStream output = connection.getOutputStream();
-                        PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
-                ) {
-                    // Send normal param.
-                    writer.append("--" + boundary).append(CRLF);
-                    writer.append("Content-Disposition: form-data; name=\"userId\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + userId).append(CRLF);
-                    writer.append(CRLF).append(klasId).append(CRLF).flush();
+                    JSONObject jsonParam = new JSONObject();
+                    jsonParam.put("userId", User_detail.ObjectId);
+                    jsonParam.put("klasId", klasId);
+                    jsonParam.put("klasPassword", klasPassword);
 
-                    writer.append("--" + boundary).append(CRLF);
-                    writer.append("Content-Disposition: form-data; name=\"klasId\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + klasId).append(CRLF);
-                    writer.append(CRLF).append(klasId).append(CRLF).flush();
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    os.writeBytes(jsonParam.toString());
 
-                    writer.append("--" + boundary).append(CRLF);
-                    writer.append("Content-Disposition: form-data; name=\"klasPassword\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + klasPassword).append(CRLF);
-                    writer.append(CRLF).append(klasPassword).append(CRLF).flush();
+                    os.flush();
+                    os.close();
 
-                    // End of multipart/form-data.
-                    writer.append("--" + boundary + "--").append(CRLF).flush();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+                    //print result
+                    Log.i("Result",response.toString());
 
-                // Request is lazily fired whenever you need to obtain information about response.
-                int responseCode = 0;
-                try {
-                    responseCode = ((HttpURLConnection) connection).getResponseCode();
-                    //response_code = responseCode;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                response_code = responseCode;
-                Log.i("Response Code", Integer.toString(responseCode));
-                try {
-                    Log.i("MSG" , ((HttpURLConnection) connection).getResponseMessage());
-                } catch (IOException e) {
+
+                    JSONObject obj = new JSONObject(response.toString());
+                    User_detail.set_klasdetail(obj);
+
+                    response_code = conn.getResponseCode();
+                    Log.i("STATUS", String.valueOf(response_code));
+                    Log.i("MSG" , conn.getResponseMessage());
+
+                    conn.disconnect();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+
         thread.start();
-        thread.join();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onCancelClicked(View view) {
+        super.onBackPressed();
     }
 };

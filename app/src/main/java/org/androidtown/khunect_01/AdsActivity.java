@@ -33,6 +33,11 @@ public class AdsActivity extends AppCompatActivity {
     }
 
     public void onClickedMyclassButton(View view) {
+        if(KLAS_detail.klas_detail == null)
+        {
+            Toast.makeText(getApplicationContext(), "KLAS 연동이 필요합니다. 내정보를 확인하세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(), MyClassActivity.class);
         startActivity(intent);

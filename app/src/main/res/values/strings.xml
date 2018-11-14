@@ -67,4 +67,10 @@
     <string name="프로필사진수정">프로필 사진 변경</string>
     <string name="닉네임변경">닉네임 변경</string>
     <string name="비밀번호변경">비밀번호 변경</string>
+    <string name="적용">적용</string>
+    <string name="새닉네임">사용할 닉네임</string>
+    <string name="새비밀번호">새 비밀번호</string>
+    <string name="현재비밀번호">현재 비밀번호</string>
+    <string name="KLAS연동하기">KLAS 연동하기</string>
+    <string name="새비밀번호재입력">새 비밀번호 재입력</string>
 </resources>

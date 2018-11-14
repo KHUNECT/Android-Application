@@ -12,6 +12,8 @@ public class MyClassActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_class);
+
+
     }
 
     public void onClickedHomeButton(View view) {

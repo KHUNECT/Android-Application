@@ -1,10 +1,10 @@
 package org.androidtown.khunect_01;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 public class TradeActivity extends AppCompatActivity {
 
@@ -31,6 +31,11 @@ public class TradeActivity extends AppCompatActivity {
     }
 
     public void onClickedMyclassButton(View view) {
+        if(KLAS_detail.klas_detail == null)
+        {
+            Toast.makeText(getApplicationContext(), "KLAS 연동이 필요합니다. 내정보를 확인하세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(), MyClassActivity.class);
         startActivity(intent);
