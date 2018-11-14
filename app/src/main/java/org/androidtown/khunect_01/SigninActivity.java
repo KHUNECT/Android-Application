@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,11 +15,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -31,6 +32,7 @@ import java.nio.file.Files;
 public class SigninActivity extends AppCompatActivity {
 
     private static int response_code;
+    private static String responseMsg;
 
     private EditText editTextName;
     private EditText editTextNickname;
@@ -49,7 +51,7 @@ public class SigninActivity extends AppCompatActivity {
     private static String email;
     private static String major;
     private static String selectedImagePath = null;
-
+    private static File imageFile = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +89,10 @@ public class SigninActivity extends AppCompatActivity {
         // Check which request we're responding to
         if (requestCode == 1) {
             // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
                 try {
 
                     if (resultCode == RESULT_OK) {
+
                         if (requestCode == SELECT_PICTURE) {
                             // 선택한 이미지에서 비트맵 생성
                             InputStream in = getContentResolver().openInputStream(data.getData());
@@ -99,8 +101,8 @@ public class SigninActivity extends AppCompatActivity {
                             // 이미지 표시
                             image_profile.setImageBitmap(img);
 
-                            Uri selectedImageUri = data.getData();
-                            selectedImagePath = getPath(selectedImageUri);
+                            Uri selectedImageURI = data.getData();
+                            selectedImagePath = getRealPathFromURI(selectedImageURI);
                         }
                     }
                     /*
@@ -114,27 +116,34 @@ public class SigninActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
+
             
         }
     }
 
-    public String getPath(Uri uri) {
-        // uri가 null일경우 null반환
-        if( uri == null ) {
-            return null;
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String filePath = "";
+        String wholeID = DocumentsContract.getDocumentId(contentURI);
+
+        // Split at colon, use second item in the array
+        String id = wholeID.split(":")[1];
+
+        String[] column = { MediaStore.Images.Media.DATA };
+
+        // where id is equal to
+        String sel = MediaStore.Images.Media._ID + "=?";
+
+        Cursor cursor = getApplicationContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                column, sel, new String[]{ id }, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
         }
-        // 미디어스토어에서 유저가 선택한 사진의 URI를 받아온다.
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        // URI경로를 반환한다.
-        return uri.getPath();
+        cursor.close();
+        return filePath;
     }
 
 
@@ -166,9 +175,12 @@ public class SigninActivity extends AppCompatActivity {
         } else {
             send_post();
                 if(response_code == 200) {
-                Toast.makeText(getApplicationContext(), name+" 회원가입 성공", Toast.LENGTH_SHORT).show();}
+
+                    Toast.makeText(getApplicationContext(), name+" 회원가입 성공", Toast.LENGTH_SHORT).show();
+                    super.onBackPressed();
+                }
                 else{
-                Toast.makeText(getApplicationContext(), "알 수 없는 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "오류가 발생했습니다. 다시 시도 해주세요.", Toast.LENGTH_SHORT).show();
                 }
 /*
             RequestParams params = new RequestParams();
@@ -204,6 +216,7 @@ public class SigninActivity extends AppCompatActivity {
 
 
     public static void send_post() throws Exception {
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -226,66 +239,48 @@ public class SigninActivity extends AppCompatActivity {
                 try (
 
                         OutputStream output = connection.getOutputStream();
-                        PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, "UTF-8"), true);
+                        PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
                 ) {
 
                     // Send normal param.
 
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"name\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + name).append(CRLF);
-                    writer.append(CRLF).append(name).append(CRLF).flush();
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
+                    writer.append(CRLF).append(CRLF).append(name).append(CRLF).flush();
 
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"userId\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + userId).append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
                     writer.append(CRLF).append(userId).append(CRLF).flush();
 
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"password\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + pw1).append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
                     writer.append(CRLF).append(pw1).append(CRLF).flush();
 
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"nickname\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + nickname).append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
                     writer.append(CRLF).append(nickname).append(CRLF).flush();
 
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"email\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + email).append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
                     writer.append(CRLF).append(email).append(CRLF).flush();
 
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"major\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + major).append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
                     writer.append(CRLF).append(major).append(CRLF).flush();
 
 
-
-            // Send binary file.
+                    // Send binary file.
                     if (selectedImagePath != null) {
                         File binaryFile = new File(selectedImagePath);
 
-                        FileInputStream fis = new FileInputStream(binaryFile);
-                        //create FileInputStream which obtains input bytes from a file in a file system
-                        //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
-
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        byte[] buf = new byte[1024];
-                        try {
-                            for (int readNum; (readNum = fis.read(buf)) != -1;) {
-                                //Writes to this byte array output stream
-                                bos.write(buf, 0, readNum);
-                                System.out.println("read " + readNum + " bytes,");
-                            }
-                        } catch (IOException ex) {
-                            //Logger.getLogger(ConvertImage.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        byte[] bytes = bos.toByteArray();
-
                         writer.append("--" + boundary).append(CRLF);
-                        writer.append("Content-Disposition: form-data; name=\"image\"; filename=\"" + bytes + "\"").append(CRLF);
+                        writer.append("Content-Disposition: form-data; name=\"image\"; filename=\"" + binaryFile.getName() + "\"").append(CRLF);
                         writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(binaryFile.getName())).append(CRLF);
                         writer.append("Content-Transfer-Encoding: binary").append(CRLF);
                         writer.append(CRLF).flush();
@@ -296,6 +291,8 @@ public class SigninActivity extends AppCompatActivity {
 
                     // End of multipart/form-data.
                     writer.append("--" + boundary + "--").append(CRLF).flush();
+                    writer.close();
+                    output.close();
 
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -304,15 +301,26 @@ public class SigninActivity extends AppCompatActivity {
                 }
 
                 // Request is lazily fired whenever you need to obtain information about response.
-                int responseCode = 0;
-                try {
-                    responseCode = ((HttpURLConnection) connection).getResponseCode();
-                    //response_code = responseCode;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                response_code = responseCode;
-                Log.i("Response Code", Integer.toString(responseCode));
+
+                    try {
+                        BufferedReader in = new BufferedReader(
+                                new InputStreamReader(connection.getInputStream()));
+                        String inputLine;
+                        StringBuffer response = new StringBuffer();
+                        while ((inputLine = in.readLine()) != null) {
+                            response.append(inputLine);
+                        }
+                        in.close();
+                        //print result
+                        Log.i("Result",response.toString());
+
+                        int responseCode = 0;
+                        responseCode = ((HttpURLConnection) connection).getResponseCode();
+                        response_code = responseCode;
+                        Log.i("Response Code", Integer.toString(responseCode));
+                    }catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 try {
                     Log.i("MSG" , ((HttpURLConnection) connection).getResponseMessage());
                 } catch (IOException e) {

@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/삽니다"
+                    android:text="@string/장터"
                     android:textColor="@color/colorKyunghee" />
 
                 <Button
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="onSellButtonClicked"
-                    android:text="@string/팝니다"
+                    android:text="@string/공구"
                     android:textColor="@color/gray_notselected" />
             </LinearLayout>
 

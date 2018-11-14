@@ -11,6 +11,9 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -24,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -72,9 +76,16 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginButtonClicked(View view) throws Exception {
         userId = editTextId.getText().toString();
         password = editTextPassword.getText().toString();
-        //send_post();
-        Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
-        startActivity(intent);
+        /*sendpostJSON();
+        if(response_code == 200) {*/
+            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
+            sendget();
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+        /*}
+        else{
+            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
+        }*/
 
         /*RequestParams params = new RequestParams();
         if(!userId.isEmpty() && !password.isEmpty()) { //로그인 api는 post임 수정해야함.
@@ -105,73 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         }*/
     }
 
-    public static void send_post() throws IOException {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://13.125.196.191/api/user/create");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(20000);
-                    conn.setReadTimeout(20000);
-                    conn.setRequestMethod("POST");
-                    conn.setDoInput(true);
-                    conn.setDoOutput(true);
-                    conn.setRequestProperty("Connection", "Keep-Alive");
-                    conn.setRequestProperty("Cache-Control", "no-cache");
-
-                    String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
-                    conn.setRequestProperty("Content-Type", "multipart/form-data;boundary="+boundary+";charset=utf-8");
-                    DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
-
-                    String lineEnd = "\r\n";
-                    String twoHyphens = "--";
-
-
-                    dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
-                    dos.writeBytes("Content-Disposition: form-data; name=\"name\"" + lineEnd + lineEnd);
-                    dos.writeUTF("이룸");
-                    //writeBytes에 한글이 들어갈 경우 깨져서 전송된다. UrlEncoder로 UTF-8, EUC-KR을 해줘도 깨짐
-                    dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
-                    dos.writeBytes("Content-Disposition: form-data; name=\"userId\"" + lineEnd + lineEnd);
-                    dos.writeUTF("힌굴");
-                    //한글 부분만 writeUTF 을 사용하여 전송하면 깨지지않고 보낼 수 있다.
-                    dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
-                    dos.writeBytes("Content-Disposition: form-data; name=\"password\"" + lineEnd + lineEnd);
-                    dos.writeUTF("qq");
-
-                    dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
-                    dos.writeBytes("Content-Disposition: form-data; name=\"nickname\"" + lineEnd + lineEnd);
-                    dos.writeUTF("dasd");
-
-                    dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
-                    dos.writeBytes("Content-Disposition: form-data; name=\"email\"" + lineEnd + lineEnd);
-                    dos.writeUTF("dasd");
-
-                    dos.writeBytes(lineEnd + twoHyphens + boundary + lineEnd);
-                    dos.writeBytes("Content-Disposition: form-data; name=\"major\"" + lineEnd + lineEnd);
-                    dos.writeUTF("dasd");
-
-                    int responseCode = 0;
-                    responseCode = conn.getResponseCode();
-                    response_code = responseCode;
-
-                    Log.i("Response Code", Integer.toString(responseCode));
-                    Log.i("MSG" , conn.getResponseMessage());
-                } catch (ProtocolException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        thread.start();
-
-    }
-    public static void sendpost() throws Exception {
+    public static void sendpostFormdata() throws Exception {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -195,9 +140,14 @@ public class LoginActivity extends AppCompatActivity {
                 ) {
                     // Send normal param.
                     writer.append("--" + boundary).append(CRLF);
-                    writer.append("Content-Disposition: form-data; name=\"body\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + userId).append(CRLF);
+                    writer.append("Content-Disposition: form-data; name=\"userId\"").append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
                     writer.append(CRLF).append(userId).append(CRLF).flush();
+
+                    writer.append("--" + boundary).append(CRLF);
+                    writer.append("Content-Disposition: form-data; name=\"password\"").append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
+                    writer.append(CRLF).append(password).append(CRLF).flush();
 
                     // End of multipart/form-data.
                     writer.append("--" + boundary + "--").append(CRLF).flush();
@@ -228,11 +178,56 @@ public class LoginActivity extends AppCompatActivity {
         thread.join();
     }
 
+    public void sendpostJSON() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://13.125.196.191/api/user/login");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject jsonParam = new JSONObject();
+                    jsonParam.put("userId", userId);
+                    jsonParam.put("password", password);
+
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    os.writeBytes(jsonParam.toString());
+
+                    os.flush();
+                    os.close();
+
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG" , conn.getResponseMessage());
+
+                    conn.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendget() throws IOException {
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try{
+
                     URL obj = new URL("http://13.125.196.191/api/user/detail"+"?userId="+userId);
                     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -241,36 +236,43 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     //add request header
-                    con.setRequestProperty("userId", "test001");
+                    //con.setRequestProperty("userId", userId);
 
                     int responseCode = con.getResponseCode();
+                    response_code = responseCode;
                     //System.out.println("\nSending 'GET' request to URL : " + url);
-                    //System.out.println("Response Code : " + responseCode);
-
+                    Log.i("Response Code",""+responseCode);
                     BufferedReader in = new BufferedReader(
                             new InputStreamReader(con.getInputStream()));
                     String inputLine;
                     StringBuffer response = new StringBuffer();
-
                     while ((inputLine = in.readLine()) != null) {
                         response.append(inputLine);
                     }
                     in.close();
-
+                    JSONObject jObject = new JSONObject(response.toString());
+                    User_detail.set_user(jObject.getString("userId"),jObject.getString("nickname"),jObject.getString("major"),
+                            jObject.getString("email"),jObject.getString("resizedImage"));
                     //print result
-                    Log.i("Result",response.toString());
-                    System.out.println(response.substring(response.indexOf("userId"),response.indexOf(",\"resizedImage")));
 
+                    Log.i("Result",response.toString());
                 } catch (ProtocolException e) {
                     e.printStackTrace();
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
         thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //회원가입 버튼

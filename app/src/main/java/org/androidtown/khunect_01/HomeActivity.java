@@ -60,6 +60,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onLogoutButtonClicked(View view) {
         //로그아웃
+        User_detail.logout();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
@@ -72,6 +73,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onHotMoreButtonClicked(View view) {
         //뜨게
+        Toast.makeText(getApplicationContext(), User_detail.email, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getApplicationContext(), HotgaeActivity.class);
         startActivity(intent);
     }
@@ -87,8 +89,8 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onKLASClicked(View view) {
-        Intent intent = new Intent(getApplicationContext(), Signupklas.class);
+    public void onModifyClicked(View view) {
+        Intent intent = new Intent(getApplicationContext(), Modifyuser.class);
         startActivity(intent);
     }
 }

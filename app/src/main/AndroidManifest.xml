@@ -46,7 +46,11 @@
         <activity android:name=".PostingActivity" />
         <activity android:name=".PostActivity" />
         <activity android:name=".AdsContestActivity" />
-        <activity android:name=".Signupklas"></activity>
+        <activity android:name=".Signupklas" />
+        <activity android:name=".Modifyuser" />
+        <activity android:name=".ModifyprofileActivity" />
+        <activity android:name=".ModnicknameActivity" />
+        <activity android:name=".ModpasswordActivity"></activity>
     </application>
 
 </manifest>

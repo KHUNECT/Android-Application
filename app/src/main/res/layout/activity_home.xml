@@ -40,9 +40,10 @@
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:onClick="onKLASClicked"
-                        android:text="@string/KLAS"
-                        android:textColor="@color/gray_notselected" />
+                        android:onClick="onModifyClicked"
+                        android:text="@string/내정보"
+                        android:textColor="@color/gray_notselected"
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/틈0"
@@ -63,7 +64,7 @@
                     <Button
                         android:id="@+id/검색"
                         style="?android:attr/buttonBarButtonStyle"
-                        android:layout_width="40dp"
+                        android:layout_width="35dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@android:drawable/ic_menu_search"

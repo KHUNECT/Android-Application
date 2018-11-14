@@ -60,10 +60,8 @@ public class Signupklas extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = "http://13.125.196.191/api/user/create";
+                String url = "http://13.125.196.191/api/user/setLecture";
                 String charset = "UTF-8";
-                //File textFile = new File("C:\\asdf\\hello.jpg");
-                //File binaryFile = new File(selectedImagePath);
                 String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
                 String CRLF = "\r\n"; // Line separator required by multipart/form-data.
 

@@ -5,9 +5,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -33,7 +34,7 @@ public class PostingActivity extends AppCompatActivity {
 
     private static int response_code= 0;
 
-    private static String userId = "testId01";
+    private static String userid = "";
 
     private static String boardid; //게시판 ID
     private static String boardName;
@@ -52,6 +53,8 @@ public class PostingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posting);
+
+        userid = User_detail.userId;
 
         editText_title = (EditText)findViewById(R.id.text_title);
         editText_context = (EditText)findViewById(R.id.text_context);
@@ -120,35 +123,36 @@ public class PostingActivity extends AppCompatActivity {
                 connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
                 try (
+
                         OutputStream output = connection.getOutputStream();
                         PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
                 ) {
+
                     // Send normal param.
+
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"writerId\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + userId).append(CRLF);
-                    writer.append(CRLF).append(userId).append(CRLF).flush();
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
+                    writer.append(CRLF).append(CRLF).append(userid).append(CRLF).flush();
 
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"title\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + title).append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
                     writer.append(CRLF).append(title).append(CRLF).flush();
 
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"context\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + context).append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
                     writer.append(CRLF).append(context).append(CRLF).flush();
 
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"boardId\"").append(CRLF);
-                    writer.append("Content-Type: text/plain; charset=" + boardid).append(CRLF);
+                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
                     writer.append(CRLF).append(boardid).append(CRLF).flush();
-
 
                     // Send binary file.
                     if (selectedImagePath != null) {
                         File binaryFile = new File(selectedImagePath);
-
                         writer.append("--" + boundary).append(CRLF);
                         writer.append("Content-Disposition: form-data; name=\"image\"; filename=\"" + binaryFile.getName() + "\"").append(CRLF);
                         writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(binaryFile.getName())).append(CRLF);
@@ -158,8 +162,10 @@ public class PostingActivity extends AppCompatActivity {
                         output.flush(); // Important before continuing with writer!
                         writer.append(CRLF).flush(); // CRLF is important! It indicates end of boundary.
                     }
+
                     // End of multipart/form-data.
                     writer.append("--" + boundary + "--").append(CRLF).flush();
+
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -170,11 +176,11 @@ public class PostingActivity extends AppCompatActivity {
                 int responseCode = 0;
                 try {
                     responseCode = ((HttpURLConnection) connection).getResponseCode();
-                    response_code = responseCode;
+                    //response_code = responseCode;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+                response_code = responseCode;
                 Log.i("Response Code", Integer.toString(responseCode));
                 try {
                     Log.i("MSG" , ((HttpURLConnection) connection).getResponseMessage());
@@ -188,7 +194,6 @@ public class PostingActivity extends AppCompatActivity {
     }
 
 
-    private int PICK_IMAGE_REQUEST = 1;
     private static final int SELECT_PICTURE = 1;
 
     public void onUploadImageButtonClicked(View view) {
@@ -205,7 +210,6 @@ public class PostingActivity extends AppCompatActivity {
         // Check which request we're responding to
         if (requestCode == 1) {
             // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
                 try {
 
                     if (resultCode == RESULT_OK) {
@@ -214,41 +218,51 @@ public class PostingActivity extends AppCompatActivity {
                             InputStream in = getContentResolver().openInputStream(data.getData());
                             Bitmap img = BitmapFactory.decodeStream(in);
                             in.close();
+
+
+                            final Uri uri = data.getData();
+                            selectedImagePath = getRealPathFromURI(uri); //invalid uri
+
                             // 이미지 표시
                             imageview_upload.setImageBitmap(img);
                             imageview_upload.setVisibility(View.VISIBLE);
 
                             button_deleteimage.setVisibility(View.VISIBLE);
 
-                            Uri selectedImageUri = data.getData();
-                            selectedImagePath = getPath(selectedImageUri);
                         }
                     }
 
                 } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "사진을 불러오는 도중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
 
-        }
+
     }
 
-    public String getPath(Uri uri) {
-        // uri가 null일경우 null반환
-        if( uri == null ) {
-            return null;
+    private String getRealPathFromURI(Uri contentURI) {
+        String filePath = "";
+        String wholeID = DocumentsContract.getDocumentId(contentURI);
+
+        // Split at colon, use second item in the array
+        String id = wholeID.split(":")[1];
+
+        String[] column = { MediaStore.Images.Media.DATA };
+
+        // where id is equal to
+        String sel = MediaStore.Images.Media._ID + "=?";
+
+        Cursor cursor = getApplicationContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                column, sel, new String[]{ id }, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
         }
-        // 미디어스토어에서 유저가 선택한 사진의 URI를 받아온다.
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        // URI경로를 반환한다.
-        return uri.getPath();
+        cursor.close();
+        return filePath;
     }
 
     public void onDeleteImageButtonClicked(View view){
