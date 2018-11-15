@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -20,6 +21,10 @@ public class HomeActivity extends AppCompatActivity {
 
     private static int response_code;
 
+    private ListView listview_hot;
+    private ListViewAdapter adapter;
+    private JSONArray jarr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +39,106 @@ public class HomeActivity extends AppCompatActivity {
 
             if(response_code == 200)
             {
-                response_code = 0;
+
             }
             else{
                 Toast.makeText(getApplicationContext(), "KLAS 연동 실패, 내 정보에서 연동해주세요.", Toast.LENGTH_SHORT).show();
             }
         }
-    }
+        /*try {
+            sendget();
 
+// Adapter 생성
+            adapter = new ListViewAdapter();
+
+            // 리스트뷰 참조 및 Adapter달기
+            listview_hot = (ListView) findViewById(R.id.listview_hot);
+            listview_hot.setAdapter(adapter);
+
+            for (int i = 0; i < jarr.length(); i++) {
+                JSONObject jobj = jarr.getJSONObject(i);
+                adapter.addItem(jobj.getString("_id"), jobj.getString("title"), jobj.getString("writerNickname"));
+            }
+//onItemClickListener를 추가
+            listview_hot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView parent, View v, int position, long id) {
+                    // get item
+                    ListViewItem item = (ListViewItem) parent.getItemAtPosition(position);
+
+                    String idStr = item.getId();
+                    String titleStr = item.getTitle();
+                    String descStr = item.getDesc();
+
+                    Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+                    intent.putExtra("_id", idStr);
+                    intent.putExtra("title", titleStr);
+                    intent.putExtra("writerNickname", descStr);
+                    startActivity(intent);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
+/*
+    //게시판 id로 게시글 목록 만들기
+    public void sendget() throws IOException {
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    URL obj = new URL("http://13.125.196.191/api/post/list/hot");
+                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+                    // optional default is GET
+                    con.setRequestMethod("GET");
+
+
+                    //add request header
+                    //con.setRequestProperty("userId", userId);
+
+                    int responseCode = con.getResponseCode();
+                    response_code = responseCode;
+                    //System.out.println("\nSending 'GET' request to URL : " + url);
+                    Log.i("Response Code",""+responseCode);
+                    BufferedReader in = new BufferedReader(
+                            new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    jarr = new JSONArray(response.toString());
+
+
+
+                    //print result
+                    Log.i("Result",response.toString());
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+*/
     //뒤로가기 두번 = 종료
     private final long FINISH_INTERVAL_TIME = 2000;
     private long   backPressedTime = 0;
@@ -62,11 +159,11 @@ public class HomeActivity extends AppCompatActivity {
     }//#
 
     public void onClickedMyclassButton(View view) {
-        if(KLAS_detail.klas_detail == null)
+        /*if(KLAS_detail.klas_detail == null)
         {
             Toast.makeText(getApplicationContext(), "KLAS 연동이 필요합니다. 내정보를 확인하세요.", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         Intent intent = new Intent(getApplicationContext(), MyClassActivity.class);
         startActivity(intent);
     }

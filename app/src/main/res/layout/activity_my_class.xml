@@ -15,56 +15,46 @@
             android:layout_height="match_parent"
             tools:context=".HomeActivity">
 
-            <ScrollView
-                android:scrollbars="none"
-                android:id="@+id/scrollView2"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/linearLayout5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/핫게시물"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/roundedborder"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <LinearLayout
-                        android:id="@+id/핫게시물"
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/text_myclass"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/roundedborder"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:layout_margin="@dimen/레이아웃설명테두리"
+                        android:text="@string/내강의"
+                        android:textColor="@color/colorKyunghee"
+                        android:textSize="@dimen/레이아웃설명" />
 
-                        <TextView
-                            android:id="@+id/text_myclass"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/레이아웃설명테두리"
-                            android:text="@string/내강의"
-                            android:textColor="@color/colorKyunghee"
-                            android:textSize="@dimen/레이아웃설명" />
+                    <ListView
+                        android:id="@+id/list_myclass"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-                        <ListView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                </LinearLayout>
 
-                    </LinearLayout>
-
-                </android.support.constraint.ConstraintLayout>
-            </ScrollView>
+            </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
                 android:background="@drawable/layout_topborder"

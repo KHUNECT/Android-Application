@@ -73,4 +73,5 @@
     <string name="현재비밀번호">현재 비밀번호</string>
     <string name="KLAS연동하기">KLAS 연동하기</string>
     <string name="새비밀번호재입력">새 비밀번호 재입력</string>
+    <string name="댓글작성">댓글 쓰기...</string>
 </resources>

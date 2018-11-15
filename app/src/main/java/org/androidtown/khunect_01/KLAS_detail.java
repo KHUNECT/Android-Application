@@ -9,4 +9,6 @@ public class KLAS_detail {
     {
         klas_detail = jarr;
     }
+
+
 }

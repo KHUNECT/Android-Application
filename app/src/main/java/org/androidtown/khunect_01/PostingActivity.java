@@ -36,8 +36,10 @@ public class PostingActivity extends AppCompatActivity {
 
     private static String userid = "";
 
-    private static String boardid; //게시판 ID
-    private static String boardName;
+    private static String postid;
+    private static String boardID; // 게시판
+    private static String boardid; //게시판 id
+    private static String boardName;//게시판 이름
     private static String title; //게시글 제목
     private static String context; //게시글 내용
     private static String writerId; //작성자 아이디
@@ -67,6 +69,7 @@ public class PostingActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); /*데이터 수신*/
         boardid = intent.getExtras().getString("boardid"); /*String형*/
+        boardID = intent.getExtras().getString("boardID");
 
 
         switch (boardid){
@@ -77,7 +80,7 @@ public class PostingActivity extends AppCompatActivity {
             case "contest": boardName = "공모전 게시판"; break;
             case "market": boardName = "거래 게시판"; break;
             case "gonggu": boardName = "공구 게시판"; break;
-            default: boardName = "학수번호 게시판";//학수번호 api get으로 과목명 가져오기
+            default: boardName = boardid+" 게시판";//학수번호 api get으로 과목명 가져오기
         }
         text_boardname.setText(boardName);
         //# 게시판 이름설정
@@ -93,8 +96,7 @@ public class PostingActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "게시물이 등록되었습니다.", Toast.LENGTH_SHORT).show();
 
             // 게시판 새로고침
-
-            //onBackPressed();
+            super.onBackPressed();
         }
         else
         {
@@ -108,8 +110,6 @@ public class PostingActivity extends AppCompatActivity {
             public void run() {
                 String url = "http://13.125.196.191/api/post/create";
                 String charset = "UTF-8";
-                //File textFile = new File("C:\\asdf\\hello.jpg");
-                //File binaryFile = new File(selectedImagePath);
                 String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
                 String CRLF = "\r\n"; // Line separator required by multipart/form-data.
 
@@ -131,9 +131,9 @@ public class PostingActivity extends AppCompatActivity {
                     // Send normal param.
 
                     writer.append("--" + boundary).append(CRLF);
-                    writer.append("Content-Disposition: form-data; name=\"writerId\"").append(CRLF);
+                    writer.append("Content-Disposition: form-data; name=\"userId\"").append(CRLF);
                     writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
-                    writer.append(CRLF).append(CRLF).append(userid).append(CRLF).flush();
+                    writer.append(CRLF).append(User_detail.ObjectId).append(CRLF).flush();
 
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"title\"").append(CRLF);
@@ -148,7 +148,7 @@ public class PostingActivity extends AppCompatActivity {
                     writer.append("--" + boundary).append(CRLF);
                     writer.append("Content-Disposition: form-data; name=\"boardId\"").append(CRLF);
                     writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
-                    writer.append(CRLF).append(boardid).append(CRLF).flush();
+                    writer.append(CRLF).append(boardID).append(CRLF).flush();
 
                     // Send binary file.
                     if (selectedImagePath != null) {

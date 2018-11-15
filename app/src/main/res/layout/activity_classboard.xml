@@ -19,46 +19,35 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/add" />
 
-    <ScrollView
-        android:scrollbars="none"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/roundedborder"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:background="@drawable/roundedborder"
+        <TextView
+            android:id="@+id/label_classname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_margin="@dimen/레이아웃설명테두리"
+            android:textColor="@color/colorKyunghee"
+            android:textSize="@dimen/레이아웃설명" />
 
-            <TextView
-                android:id="@+id/label_classname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/레이아웃설명테두리"
-                android:textColor="@color/colorKyunghee"
-                android:textSize="@dimen/레이아웃설명" />
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-            <Button
-                style="?android:borderlessButtonStyle"
-                android:background="@drawable/button_gaesimul"
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button" />
-
-            <TextView
-                android:id="@+id/틈"
-                android:layout_width="match_parent"
-                android:layout_height="8dp" />
-        </LinearLayout>
-    </ScrollView>
+        <TextView
+            android:id="@+id/틈"
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
